@@ -42,9 +42,9 @@ class CaloriesCalculator(Calculator):
                 todays_calories += record.amount
         if todays_calories < self.limit:
             remained_calories = int(self.limit - todays_calories)
-            print (f'Сегодня можно съесть что-нибудь ещё, но с общей калорийностью не более {remained_calories} кКал')
+            return (f'Сегодня можно съесть что-нибудь ещё, но с общей калорийностью не более {remained_calories} кКал')
         else:
-            print ('Хватит есть!')
+            return ('Хватит есть!')
 
     def get_week_stats(self):
         super().get_week_stats()
@@ -70,30 +70,30 @@ class CashCalculator(Calculator):
         if currency == 'rub':
             if todays_expenses < self.limit:
                 remained_cash = round(self.limit - todays_expenses, 2)
-                print (f'На сегодня осталось {remained_cash} руб')
+                return (f'На сегодня осталось {remained_cash} руб')
             elif todays_expenses == self.limit:
-                print ('Денег нет, держись')
+                return ('Денег нет, держись')
             else:
                 debt = round(todays_expenses - self.limit, 2)
-                print (f'Денег нет, держись: твой долг - {debt} руб')
+                return (f'Денег нет, держись: твой долг - {debt} руб')
         elif currency == 'usd':
             if todays_expenses < self.limit:
                 remained_cash = round((self.limit - todays_expenses)/self.USD_RATE, 2)
-                print (f'На сегодня осталось {remained_cash} USD')
+                return (f'На сегодня осталось {remained_cash} USD')
             elif todays_expenses == self.limit:
-                print ('Денег нет, держись')
+                return ('Денег нет, держись')
             else:
                 debt = round((todays_expenses - self.limit)/self.USD_RATE, 2)
-                print (f'Денег нет, держись: твой долг - {debt} USD')
+                return (f'Денег нет, держись: твой долг - {debt} USD')
         else:
             if todays_expenses < self.limit:
                 remained_cash = round((self.limit - todays_expenses)/self.EURO_RATE, 2)
-                print (f'На сегодня осталось {remained_cash} Euro')
+                return (f'На сегодня осталось {remained_cash} Euro')
             elif todays_expenses == self.limit:
-                print ('Денег нет, держись')
+                return ('Денег нет, держись')
             else:
                 debt = round((todays_expenses - self.limit)/self.EURO_RATE, 2)
-                print (f'Денег нет, держись: твой долг - {debt} Euro')
+                return (f'Денег нет, держись: твой долг - {debt} Euro')
 
     def get_week_stats(self):
         super().get_week_stats()
