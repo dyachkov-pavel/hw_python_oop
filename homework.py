@@ -28,16 +28,15 @@ class Calculator:
         )
         return counter
 
-    def get_remainder(self, value_1, value_2):
-        remainder = value_1 - value_2
+    def get_remainder(self):
+        remainder = self.limit - self.get_today_stats()
         return remainder
 
 
 class CaloriesCalculator(Calculator):
 
     def get_calories_remained(self):
-        remained_calories = self.get_remainder(
-            self.limit, self.get_today_stats())
+        remained_calories = self.get_remainder()
         if remained_calories > 0:
             return ('Сегодня можно съесть что-нибудь ещё, '
                     'но с общей калорийностью не более '
@@ -56,16 +55,16 @@ class CashCalculator(Calculator):
     def get_today_cash_remained(self, currency):
         if currency not in self.currency_info:
             return f'Валюта {currency} не определена'
+        remained_cash = self.get_remainder()
+        if remained_cash == 0:
+            return 'Денег нет, держись'
         currency_name, currency_rate = self.currency_info[currency]
-        remained_cash = self.get_remainder(
-            self.limit, self.get_today_stats())/currency_rate
-        if remained_cash >= 0:
-            if remained_cash == 0:
-                return 'Денег нет, держись'
+        cash_balance = remained_cash/currency_rate
+        if remained_cash > 0:
             return ('На сегодня осталось '
-                    f'{remained_cash:.2f} {currency_name}'
+                    f'{cash_balance:.2f} {currency_name}'
                     )
-        debt = abs(remained_cash)
+        debt = abs(cash_balance)
         return ('Денег нет, держись: '
                 f'твой долг - {debt:.2f} {currency_name}'
                 )
